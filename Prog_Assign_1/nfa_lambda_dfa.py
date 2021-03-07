@@ -1,9 +1,56 @@
+#!/usr/bin/env python3
+
+"""Purpose of this module is to convert NFA/NFA lambda to DFA
+Course is CS 5800
+Author is Matthew Kennedy
+
+Example:
+    Option to run either the .py file, or .exe file 
+    With each option, can either
+        1) Pass in a file to read input from
+        2) Pass in command line arguments, specified in README
+        3) Enter inputs manually
+"""
+
 import os
 import sys
 import copy
+import random
+import pyperclip
 
 class NFAL_DFA:
+    """Class to convert NFA\Lambda to DFA, as well as process strings for this new DFA
+
+    Attributes:
+        Q (list): States of M (starting NFA\Lambda)
+        S (list): (S)sigma of M (alphabet of NFA\Lambda), same for new DFA (M prime)
+        D (dict): (D)elta of M (starting NFA\Lambda)
+        start_state (str): q0, starting state of M
+        F (list): Final (accepting) states of M
+        input_trans_func (dict): input transition function of M
+        start_state_lambda_closure - Used as starting point for algorithm to convert NFA\Lambda to DFA
+        Q_prime (list): States of M prime (new DFA)
+        S_prime (list): (S)sigma of M prime (alphabet of DFA), same for M
+        D_prime (dict): (D)elta of M prime (new DFA)
+        F_prime (list): Final (accepting) states of M prime
+    """
+
     def __init__(self, args):
+        """Init runs through methods procedurally
+        Starts by processing input arguments and getting necessary tuple elements of NFA\Lambda
+        Next, creates the input transition function for this NFA\Lambda
+        Next, gets the lambda closure of starting state of M, for use in the new DFA
+        Next, creates the DFA
+        After this, the program will create the graphviz file, then test strings on this new DFA
+
+        Args:
+            args (list): Command line arguments passed in 
+
+        Returns:
+            None
+
+        """
+
         self.process_inputs(args)
         self.create_input_transition_func()
         self.get_q0_lambda_closure()
@@ -11,15 +58,37 @@ class NFAL_DFA:
         self.output_dfa()
         self.create_graphviz_format()
         self.test_strings()
-
+        pass
 
     
     def test_strings(self):
+        """Processes random strings, then gives user option to process strings
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
+
         #Test a few random strings
+        strings = []
+        print('Random strings:')
+        for _ in range(10):
+            string = ''.join(random.choice(self.S_prime) for i in range(random.randint(8, 20)))
+            strings.append(string)
+            
+        for s in strings:
+            print(s, self.process_string(s))
+
+        #Test strings I made
+        print('\nMy own strings:')
         strings = ['aaaaaaaaaa', 'bbbbbbbbbb', 'aaaaabbbbb', 'abbbbbbbbb', 'aaaabbbbbbbbbbbbbbbbbb', 'aaaaaaaba', 'baaaaaaba']
         for s in strings:
             print(s, self.process_string(s))
 
+        print()
         #Give the option for custom strings
         while True:
             s = input("Enter a string to test, or leave blank to exit:\t")
@@ -30,6 +99,20 @@ class NFAL_DFA:
 
 
     def process_string(self, string):
+        """Processes a string provided one char at a time.
+        If at any point no possible path to follow, returns False
+        If entire string processed, but ends not on a final string, return False
+        Otherwise, return True
+
+        Args:
+            None
+
+        Returns:
+            True if string processed correctly
+            False if not
+
+        """
+
         #Start state
         state = ''.join(self.start_state_lambda_closure)
 
@@ -51,7 +134,19 @@ class NFAL_DFA:
         
     
     def create_graphviz_format(self):
-        #save_path = input("\n\nPlease enter a path to save file output to:\t")
+        """Creates graphviz formatted string (extra credit)
+        Prints it, also prompts user for save path if they want that
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
+        
+        print("\n\nPlease enter a path to save file output to (leave blank to skip)")
+        save_path = input("Note: the graphviz text will be printed out here, as well as automatically copied:\t")
         #Create string for final states
         final_nodes_str_repr = ''.join(["{{{}}}".format(''.join(f)) for f in self.F_prime])
 
@@ -74,21 +169,36 @@ class NFAL_DFA:
         output_str += '\n{}'.format(transitions_str_repr)
         output_str += '}}'
 
+        #Print text out, also put on clipboard
         print(output_str, '\n\n')
+        pyperclip.copy(output_str)
+        
         #Save output
-        #with open(save_path, "w") as f:
-        #    f.write(output_str)
+        if save_path:
+            with open(save_path, "w") as f:
+                f.write(output_str)
 
 
 
     def output_dfa(self):
+        """Displays each element of the tuple that defines the new DFA
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
+
+        print('Tuple elements of newly created DFA:\n')
         #Output states
-        print('States of M prime:')
+        print("Q prime:")
         for s in self.Q_prime:
-            print('\t{}'.format(s))
+            print('\t', ''.join(s))
 
         #Output alphabet
-        print('Alphabet is the same (Sigma prime = sigma)')
+        print("Sigma prime is the same as Sigma (alphabet unchanged)")
 
         #Output delta
         print('Delta prime:')
@@ -96,22 +206,35 @@ class NFAL_DFA:
             print('\t', k, '->', v)
 
         #Output start state
-        print('Start state of M prime is equal to lambda closure of start state of M, which is {}'.format(self.start_state_lambda_closure))
+        print('Start state of new DFA is equal to lambda closure of start state of M, which is {}'.format(self.start_state_lambda_closure))
 
         #Output final states
-        print('M prime final states:')
+        print('F prime:')
         for f in self.F_prime:
-            print('\t', f)
+            print('\t', ''.join(f))
 
         print('\n\n')
 
 
 
     def create_dfa(self):
+        """Creates DFA from start state lambda closure and input transition functioin.
+        For each node/symbol, check if that node has an arc reaching somewhere with that symbol
+        If not, break node down into states, then get the infinitary union of each state's input 
+        transitive function value (Y). 
+        Then, convert to string representation (or just 0 if Y is empty), add Y to the list of nodes,
+        and the string representation to the new DFA's transitive function table for that node/symbol
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
         self.Q_prime = [self.start_state_lambda_closure]
         self.S_prime = self.S
         self.D_prime = {}
-        self.start_state_prime = self.start_state
         self.F_prime = []
         
         #Check each node, verify the key exists in (D)elta_prime
@@ -151,6 +274,18 @@ class NFAL_DFA:
 
 
     def get_q0_lambda_closure(self):
+        """Gets lambda closure for starting state - this is required for the NFA\Lambda to DFA algorithm
+        No other lambda closures needed. Just sees if there are any lambda branches to reach out on from start state
+        Follows as far as possible.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
+
         self.start_state_lambda_closure = [self.start_state]
 
         if (self.start_state, 'lambda') in self.D.keys():
@@ -174,6 +309,19 @@ class NFAL_DFA:
 
 
     def create_input_transition_func(self):
+        """Creates input transition function. Loops through each combo of state/symbol that isn't lambda
+        Keeps track of states for that specific transition - appends normally if not lambda
+        If any lambda arcs, adds any states reachable by lambda if original state has a looped element
+        Additionally, tries to reach out on lambda branches and search for the specified symbol, adds that state if possible
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
+
         self.input_trans_func = {}
 
         for state in self.Q:
@@ -224,11 +372,30 @@ class NFAL_DFA:
 
                         #Delete the state we were on from the list
                         del states_to_visit[0]
+
+                #Set input transition for state/symbol to states found
                 self.input_trans_func[state, symbol] = states
 
 
 
     def process_inputs(self, args):
+        """Processes input. Defaults to file path if -file flag specified
+        If file unreadable or flag not set, checks if user passed in all other necessary flags
+        If not that, prompts user for a file path, or the option to just enter info manually.
+
+        Args:
+            args (list): Command line arguments passed in to program
+
+        Returns:
+            None
+
+        """
+
+        print('\n'*50)
+        #Check if help flag passed in
+        if "-h" in args or "-H" in args:
+            self.show_help()
+
         #Check first if there is a path specified, and verify path is valid
         if "-file" in args:
             file_path = args[args.index("-file")+1]
@@ -274,6 +441,9 @@ class NFAL_DFA:
                 self.start_state = input("Enter the start state:\t")
                 self.F = input("Enter the final state(s), F, deliminated by commas (i.e. state1,state2...):\t")
 
+        if not self.Q or not self.S or not self.D or not self.start_state or not self.F:
+            self.show_help()
+
         
         #Verify elements
         self.verify_elements()
@@ -281,6 +451,21 @@ class NFAL_DFA:
 
 
     def verify_elements(self):
+        """After getting all 5 necessary tuple elements for M, this method verifies them
+        For Q, just splits it
+        For S, just splits it
+        For D, splits accordingly, verifies all elements are present in Q and S
+        For q0, verifies q0 is part of Q
+        For F, verifies all F are part of Q
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        """
+
         #Get states, remove whitespace just in case user forgot to
         self.Q = [q.strip() for q in self.Q.split(',')]
 
@@ -295,6 +480,12 @@ class NFAL_DFA:
             transition_split = [d.strip() for d in transition.split(',')]
             self.D[transition_split[0], transition_split[1]] = transition_split[2:]
 
+            #Make sure input to process is part of S, states are part of Q
+            assert transition_split[1] in self.S, "Input to process in transitions must be part of S, {} is not".format(transition_split[1])
+            assert transition_split[0] in self.Q, "States specified in transition must be part of Q, {} is not".format(s)
+            for s in transition_split[2:]:
+                assert s in self.Q, "States specified in transition must be part of Q, {} is not".format(s)
+
         #Verify q0 is part of Q
         assert self.start_state in self.Q, "Starting state needs to be part of Q, {} is not part of {}".format(self.start_state, self.Q)
 
@@ -308,6 +499,17 @@ class NFAL_DFA:
 
     
     def read_file(self, file_path):
+        """Reads a file for specified input, 
+        looking at the start of each line for the required tuple elements
+
+        Args:
+            file_path (str): File path string to verify/read from
+
+        Returns:
+            None
+
+        """
+
         assert os.path.exists(file_path), "File must be a valid path"
 
         #Read file
@@ -337,13 +539,46 @@ class NFAL_DFA:
                         tuple_counts['Q0'] += 1
                         self.start_state = line_split[1]
 
-                    elif (line_split[0] == 'fs' or line_split[0] == 'F'):
+                    elif (line_split[0] == 'f' or line_split[0] == 'F'):
                         tuple_counts['F'] += 1
                         self.F = line_split[1]
             
             #Assert each key has count of 1
             for k, v in tuple_counts.items():
                 assert v == 1, "Must be exactly 1 value for {}".format(k)
+
+
+    def show_help(self):
+        """Prints help string, exits after
+
+        Args:
+            None
+        Returns:
+            None
+
+        """
+
+        print("""
+        You can either execute .exe file, or run python file
+3 options:
+    Specify a file using flag below
+    Run program with arguments passed in
+    Enter inputs manually, prompted by program
+
+Flags:
+-hH - Help message (exits after showing)
+-qQ - States of M
+-sS - Alphabet of M (s for Sigma)
+-dD - Transition functions of M (d for Delta)
+-q0 - Start state of M
+-fF - Final states of M
+-file - Specifies a file to read from (format specified in README, example also provided)
+    Note - if all flags provided, including -file, program will always try to read from file.""")
+        input()
+        sys.exit()
+
+
+
 
 if __name__ == '__main__':
     converter = NFAL_DFA(sys.argv)
