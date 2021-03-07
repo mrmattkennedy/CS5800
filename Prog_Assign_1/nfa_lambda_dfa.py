@@ -540,9 +540,13 @@ class NFAL_DFA:
 
         #Get states, remove whitespace just in case user forgot to
         self.Q = [q.strip() for q in self.Q.split(',')]
+        for q in self.Q:
+            assert self.Q.count(q) == 1, "No duplicate states allowed"
 
         #Get alphabet, remove whitespace just in case user forgot to
         self.S = [s.strip() for s in self.S.split(',')]
+        for s in self.S:
+            assert self.S.count(s) == 1, "No duplicate alphabet items allowed"
 
         #Get transitions, remove whitespace just in case user forgot to
         temp_d = [d.strip().replace(')', '').replace('(', '') for d in self.D.split('),')]
@@ -563,6 +567,8 @@ class NFAL_DFA:
 
         #Get final states, remove whitespace just in case user forgot to
         self.F = [f.strip() for f in self.F.split(',')]
+        for f in self.F:
+            assert self.F.count(f) == 1, "No duplicate final states allowed"
 
         #Verify F is part of Q
         for f in self.F:
