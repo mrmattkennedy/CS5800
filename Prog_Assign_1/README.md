@@ -13,18 +13,25 @@ There are 3 ways to run this program:
 
 ### Command line arguments
 * -hH
+
 	If this arg is provided, no other args are processed - the program will display the help message and exit.
 * -file
+ 
 	If this arg is provided (and not -hH), no other args are processed - the program will attempt to read from a file
 * -qQ
+ 
 	Program will read this as the NFA/NFA-lambda's State element (list of states) - see "Tuple Elements" section below for formatting.
 * -sS
+ 
 	Program will read this as the NFA/NFA-lambda's Alphabet element (list of acceptable inputs to process) - see "Tuple Elements" section below for formatting.
 * -dD
+ 
 	Program will read this as the NFA/NFA-lambda's Transition functions - see "Tuple Elements" section below for formatting.
 * -q0Q0
+ 
 	Program will read this as the NFA/NFA-lambda's Starting state (q0) - see "Tuple Elements" section below for formatting.
 * -fF
+
 	Program will read this as the NFA/NFA-lambda's Final (accepting) states - see "Tuple Elements" section below for formatting.
 	
 
