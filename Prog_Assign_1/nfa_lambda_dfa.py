@@ -78,24 +78,60 @@ class NFAL_DFA:
         for _ in range(10):
             string = ''.join(random.choice(self.S_prime) for i in range(random.randint(8, 20)))
             strings.append(string)
-            
+        
+        #Print computations, then result
         for s in strings:
-            print(s, self.process_string(s))
+            result, comps = self.process_string(s)
+            self.print_nicely(s, result, comps)
 
         #Test strings I made
         print('\nMy own strings:')
-        strings = ['aaaaaaaaaa', 'bbbbbbbbbb', 'aaaaabbbbb', 'abbbbbbbbb', 'aaaabbbbbbbbbbbbbbbbbb', 'aaaaaaaba', 'baaaaaaba']
+        strings = ['aabb', 'bbbbbbbbbb', 'aaaaabbbbb', 'abbbbbbbbb', 'aaaabbbbbbbbbbbbbbbbbb', 'aaaaaaaba', 'baaaaaaba']
         for s in strings:
-            print(s, self.process_string(s))
+            result, comps = self.process_string(s)
+            self.print_nicely(s, result, comps)
 
         print()
         #Give the option for custom strings
         while True:
             s = input("Enter a string to test, or leave blank to exit:\t")
             if s:
-                print(s, self.process_string(s))
+                result, comps = self.process_string(s)
+                self.print_nicely(s, result, comps)
             else:
                 break
+
+        
+    def print_nicely(self, s, result, comps):
+        #Get max length for each column
+        col0 = [i[0] for i in comps]
+        col0.append('Starting state')
+        col0_maxlen = max([len(i) for i in col0])
+
+        col1 = [i[1] for i in comps]
+        col1.append('Ending state')
+        col1_maxlen = max([len(i) for i in col1])
+
+        col2 = [i[2] for i in comps]
+        col2.append('Remaining string')
+        col2_maxlen = max([len(i) for i in col2])
+
+        col3 = [i[3] for i in comps]
+        col3.append('Character processed')
+        col3_maxlen = max([len(i) for i in col3])
+
+        #Print column header, then pad each line with the max length for that column to align
+        print('Starting state\tEnding state\tRemaining string\tCharacter processed')
+        for line in comps[:-1]:
+            col0_str_padded = line[0].ljust(col0_maxlen)
+            col1_str_padded = line[1].ljust(col1_maxlen)
+            col2_str_padded = line[2].ljust(col2_maxlen)
+            col3_str_padded = line[3].ljust(col3_maxlen)
+            print('{}\t{}\t{}\t{}'.format(col0_str_padded, col1_str_padded, col2_str_padded, col3_str_padded))
+
+        #Print last line (reason rejected or accepted), then print the string/actual result
+        print(comps[-1])
+        print(s, result, '\n')
 
 
     def process_string(self, string):
@@ -112,26 +148,32 @@ class NFAL_DFA:
             False if not
 
         """
-
+    
         #Start state
         state = ''.join(self.start_state_lambda_closure)
+        computations = [[state, 'lambda', string, 'lambda']]
 
         #Process string, if ever not an option to move, just return False
         while string:
             char_to_process = string[0]
             if (state, char_to_process) in self.D_prime.keys():
+                old_state = state
                 state = self.D_prime[state, char_to_process]
                 string = string[1:]
+                computations.append([old_state, state, string, char_to_process])
             else:
-                return False
+                computations.append('No transitions available')
+                return 'REJECT', computations
 
         #Make sure actually in a final state
         for f in self.F_prime:
             f_str_repr = ''.join(f)
             if f_str_repr == state:
-                return True
+                computations.append('String finished processing, ended in final state')
+                return 'ACCEPT', computations
 
-        return False
+        computations.append('String finished processing, ended at non-final state')
+        return 'REJECT', computations
             
         
     
