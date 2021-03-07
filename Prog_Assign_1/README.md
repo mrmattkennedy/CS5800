@@ -7,10 +7,15 @@ Examples of running this program located at the bottom.
 ### Running
 There are 3 ways to run this program:
 * Using the .exe file (Windows only)
+	
 	example: ./nfa_lambda_dfa.exe (args)
+	
 * Using the python(3) command (windows/linux)
+
 	example: python3 nfa_lambda_dfa.py (args)
+	
 * Running the .py file without using python(3) command (./nfa_lambda_dfa.py) (windows/linux)
+
 	example: ./nfa_lambda_dfa.py (args)
 	
 <p>&nbsp;</p>
