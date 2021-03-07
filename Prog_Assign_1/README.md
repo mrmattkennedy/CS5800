@@ -1,16 +1,17 @@
 All code/work was created by Matthew Kennedy, for CS5800, spring semester 2021
-The purpose of this program is to convert a provided NFA or NFA-Lambda into a DFA, as well as test input strings
+The purpose of this program is to convert a provided NFA or NFA-Lambda into a DFA, as well as test input strings.
+Examples of running this program located at the bottom.
 
 
 
 ### Running
 There are 3 ways to run this program:
 * Using the .exe file (Windows only)
-	example: ./nfa_lambda_dfa.exe [flags]
+	example: ./nfa_lambda_dfa.exe (args)
 * Using the python(3) command (windows/linux)
-	example: python3 nfa_lambda_dfa.py [flags]
+	example: python3 nfa_lambda_dfa.py (args)
 * Running the .py file without using python(3) command (./nfa_lambda_dfa.py) (windows/linux)
-	example: ./nfa_lambda_dfa.py [flags]
+	example: ./nfa_lambda_dfa.py (args)
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -90,7 +91,21 @@ As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are
 
 	If the there is no -file or -hH arguments, and the 5 tuple element arguments are not provided, the program will prompt the user for the 5 tuple elements to define the NFA/NFA-lambda.
 
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
+### Examples
+./nfa_lambda_dfa.py -file example.txt
+./nfa_lambda_dfa.py -h
+./nfa_lambda_dfa.py -q q0,q1,q2 -S a,b,c,lambda -D (q0,a,q0,q1,q2),(q1,b,q1),(q2,c,q2),(q2,lambda,q1) -Q0 q0 -f q1
+	This is from example 5.6.1 in the book
+./nfa_lambda_dfa.py -Q q0,q1,q2 -s a,b -d (q0,a,q0,q1),(q1,b,q1,q2) -q0 q0 -F q2
+	This is example 5.6.2 in the book
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
 If at any point the input provided fails, there are likely helpful error messages, or a help message to display useful information.
 	
