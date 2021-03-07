@@ -36,10 +36,10 @@ There are 3 ways to run this program:
 * -fF
 
 	Program will read this as the NFA/NFA-lambda's Final (accepting) states - see "Tuple Elements" section below for formatting.
-	
-	
-	
-	
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
 ### Tuple Elements
 There are 5 tuple elements that define an NFA/NFA-Lambda: (Q, (S)igma, (D)elta, q0, (F)inal states)
@@ -70,10 +70,10 @@ Listed below is the way this program processes each element:
 	Program reads this as a comma-separated-values list. Leading/trailing whitespace should be processed/removed by the program.
 	Example: q0,q1
 
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
-
-	
-	
 ### Input/flags:
 As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are several ways to do this:
 1. Using the -file arguments
