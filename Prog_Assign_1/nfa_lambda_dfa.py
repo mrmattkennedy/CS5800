@@ -92,6 +92,12 @@ class NFAL_DFA:
             self.print_nicely(s, result, comps)
         '''
 
+        print('\n\n')
+        print('='*50)
+        print('Testing strings')
+        print('='*50)
+        print('\n')
+
         #Test strings I made
         print('\nMy own strings:')
         strings = ['aabb', 'bbbbbbbbbb', 'aaaaabbbbb', 'abbbbbbbbb', 'aaaabbbbbbbbbbbbbbbbbb', 'aaaaaaaba', 'baaaaaaba']
@@ -153,7 +159,7 @@ class NFAL_DFA:
 
         #Print last line (reason rejected or accepted), then print the string/actual result
         print(comps[-1])
-        print(s, result, '\n')
+        print('String {}: {}\n'.format(s, result))
 
 
 
