@@ -16,7 +16,11 @@ import os
 import sys
 import copy
 import random
-import pyperclip
+
+try:
+    import pyperclip
+except:
+    pass
 
 class NFAL_DFA:
     """Class to convert NFA\Lambda to DFA, as well as process strings for this new DFA
@@ -210,7 +214,7 @@ class NFAL_DFA:
         """
         
         print("\n\nPlease enter a path to save file output to (leave blank to skip)")
-        save_path = input("Note: the graphviz text will be printed out here, as well as automatically copied:\t")
+        save_path = input("Note: the graphviz text will be printed out here, as well as automatically copied (if pyperclip found on system):\t")
         #Create string for final states
         final_nodes_str_repr = ''.join(["{{{}}}".format(''.join(f)) for f in self.F_prime])
 
@@ -235,7 +239,10 @@ class NFAL_DFA:
 
         #Print text out, also put on clipboard
         print(output_str, '\n\n')
-        pyperclip.copy(output_str)
+        try:
+            pyperclip.copy(output_str)
+        except:
+            print('Module pyperclip not on system, so text will not be put on clipboard automatically')
         
         #Save output
         if save_path:
