@@ -12,7 +12,7 @@ There are 3 ways to run this program:
 	example: python3 nfa_lambda_dfa.py (args)
 * Running the .py file without using python(3) command (./nfa_lambda_dfa.py) (windows/linux)
 	example: ./nfa_lambda_dfa.py (args)
-<p>&nbsp;</p>
+	
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -39,7 +39,6 @@ There are 3 ways to run this program:
 
 	Program will read this as the NFA/NFA-lambda's Final (accepting) states - see "Tuple Elements" section below for formatting.
 
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -74,7 +73,6 @@ Listed below is the way this program processes each element:
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ### Input/flags:
 As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are several ways to do this:
@@ -93,7 +91,6 @@ As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ### Examples
 ./nfa_lambda_dfa.py -file example.txt
@@ -102,13 +99,12 @@ As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are
 
 ./nfa_lambda_dfa.py -q q0,q1,q2 -S a,b,c,lambda -D (q0,a,q0,q1,q2),(q1,b,q1),(q2,c,q2),(q2,lambda,q1) -Q0 q0 -f q1
 
-	This is from example 5.6.1 in the book
+This is from example 5.6.1 in the book
 	
 ./nfa_lambda_dfa.py -Q q0,q1,q2 -s a,b -d (q0,a,q0,q1),(q1,b,q1,q2) -q0 q0 -F q2
 
-	This is example 5.6.2 in the book
+This is example 5.6.2 in the book
 
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
