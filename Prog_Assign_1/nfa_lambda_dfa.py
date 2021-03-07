@@ -126,10 +126,12 @@ class NFAL_DFA:
                 return False
 
         #Make sure actually in a final state
-        if state not in self.F_prime:
-            return False
+        for f in self.F_prime:
+            f_str_repr = ''.join(f)
+            if f_str_repr == state:
+                return True
 
-        return True
+        return False
             
         
     
@@ -522,7 +524,7 @@ class NFAL_DFA:
 
                 #Get counts of each element of tuple defining M, make sure there is 1 of each
                 if line:
-                    line_split = line.split(': ')
+                    line_split = [l.strip() for l in line.split(':')]
                     if (line_split[0] == 'q' or line_split[0] == 'Q'):
                         tuple_counts['Q'] += 1
                         self.Q = line_split[1]
