@@ -35,6 +35,8 @@ class NFAL_DFA:
         F_prime (list): Final (accepting) states of M prime
     """
 
+
+
     def __init__(self, args):
         """Init runs through methods procedurally
         Starts by processing input arguments and getting necessary tuple elements of NFA\Lambda
@@ -58,9 +60,9 @@ class NFAL_DFA:
         self.output_dfa()
         self.create_graphviz_format()
         self.test_strings()
-        pass
 
     
+
     def test_strings(self):
         """Processes random strings, then gives user option to process strings
 
@@ -72,7 +74,8 @@ class NFAL_DFA:
 
         """
 
-        #Test a few random strings
+        '''
+        #Test a few random strings - commented out because seems unnecessary
         strings = []
         print('Random strings:')
         for _ in range(10):
@@ -83,6 +86,7 @@ class NFAL_DFA:
         for s in strings:
             result, comps = self.process_string(s)
             self.print_nicely(s, result, comps)
+        '''
 
         #Test strings I made
         print('\nMy own strings:')
@@ -102,7 +106,21 @@ class NFAL_DFA:
                 break
 
         
+
     def print_nicely(self, s, result, comps):
+        """Prints out computations and result of processed string nicely
+        Aligns each output to the right, so much easier to read
+
+        Args:
+            s (str): String that was processed
+            result (str): ACCEPT or REJECT, result of the string being processed
+            comps (list): List of each computation in processing
+
+        Returns:
+            None
+
+        """
+
         #Get max length for each column
         col0 = [i[0] for i in comps]
         col0.append('Starting state')
@@ -134,6 +152,7 @@ class NFAL_DFA:
         print(s, result, '\n')
 
 
+
     def process_string(self, string):
         """Processes a string provided one char at a time.
         If at any point no possible path to follow, returns False
@@ -144,8 +163,9 @@ class NFAL_DFA:
             None
 
         Returns:
-            True if string processed correctly
-            False if not
+            ACCEPT if string processed correctly
+            REJECT if not
+            Computations that took place
 
         """
     
@@ -312,8 +332,10 @@ class NFAL_DFA:
                         self.F_prime.append(Y)
         
         #Add empty set recursion
-        for symbol in self.S:
-            self.D_prime[(0, symbol)] = 0
+        if any (v for v in self.D_prime.values() if v == '0'):
+            for symbol in self.S:
+                self.D_prime[(0, symbol)] = 0
+            self.Q_prime.append('0')
 
 
 
@@ -487,7 +509,6 @@ class NFAL_DFA:
 
         if not self.Q or not self.S or not self.D or not self.start_state or not self.F:
             self.show_help()
-
         
         #Verify elements
         self.verify_elements()
@@ -590,6 +611,7 @@ class NFAL_DFA:
             #Assert each key has count of 1
             for k, v in tuple_counts.items():
                 assert v == 1, "Must be exactly 1 value for {}".format(k)
+
 
 
     def show_help(self):
