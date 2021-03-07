@@ -11,11 +11,9 @@ There are 3 ways to run this program:
 	example: python3 nfa_lambda_dfa.py [flags]
 * Running the .py file without using python(3) command (./nfa_lambda_dfa.py) (windows/linux)
 	example: ./nfa_lambda_dfa.py [flags]
-	
-	
-	
-	
-
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 ### Command line arguments
 * -hH
 
