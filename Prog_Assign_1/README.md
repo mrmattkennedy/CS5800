@@ -13,6 +13,8 @@ There are 3 ways to run this program:
 	example: ./nfa_lambda_dfa.py [flags]
 	
 	
+	
+	
 
 ### Command line arguments
 * -hH
@@ -36,6 +38,8 @@ There are 3 ways to run this program:
 * -fF
 
 	Program will read this as the NFA/NFA-lambda's Final (accepting) states - see "Tuple Elements" section below for formatting.
+	
+	
 	
 	
 
@@ -67,6 +71,8 @@ Listed below is the way this program processes each element:
 
 	Program reads this as a comma-separated-values list. Leading/trailing whitespace should be processed/removed by the program.
 	Example: q0,q1
+
+
 
 	
 	
