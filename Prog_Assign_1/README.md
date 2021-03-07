@@ -9,7 +9,39 @@ There are 3 ways to run this program:
 	example: python3 nfa_lambda_dfa.py [flags]
 * Running the .py file without using python(3) command (./nfa_lambda_dfa.py) (windows/linux)
 	example: ./nfa_lambda_dfa.py [flags]
+	
+
+### Command line arguments
+* -hH
+	If this arg is provided, no other args are processed - the program will display the help message and exit.
+* -file
+	If this arg is provided (and not -hH), no other args are processed - the program will attempt to read from a file
+* -qQ
+	Program will read this as the NFA/NFA-lambda's State element (list of states) - see "Tuple Elements" section below for formatting.
+* -sS
+	Program will read this as the NFA/NFA-lambda's Alphabet element (list of acceptable inputs to process) - see "Tuple Elements" section below for formatting.
+* -dD
+	Program will read this as the NFA/NFA-lambda's Transition functions - see "Tuple Elements" section below for formatting.
+* -q0Q0
+	Program will read this as the NFA/NFA-lambda's Starting state (q0) - see "Tuple Elements" section below for formatting.
+* -fF
+	Program will read this as the NFA/NFA-lambda's Final (accepting) states - see "Tuple Elements" section below for formatting.
+	
+
+### Tuple Elements
+
 		
 ### Input/flags:
 As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are several ways to do this:
+1. Using the -file arguments
+	When the -file argument is specified, the program will check if the argument following -flag is a valid file path.
+	If the file is valid, the program will attempt to read from the file. For a file to be valid, the file must have 5 lines, where each line starts with a unique tuple element (qQ, sS, dD, q0Q0, fF), followed by a ':'.
+	If the program fails to find all 5 elements in the file, the file will display the help message and exit.
+	An example is provided, called "example.txt"
+2. Using command line arguments
+	If the -file argument is not specified, and the -hH argument is not specified, the program will check if the -qQ, -sS, -dD, -q0Q0, -fF arguments are provided. If so, the program checks the argumenmt following each and verifies them.
+3. Manual input
+	If the there is no -file or -hH arguments, and the 5 tuple element arguments are not provided, the program will prompt the user for the 5 tuple elements to define the NFA/NFA-lambda.
+
+If at any point the input provided fails, there are likely helpful error messages, or a help message to display useful information.
 	
