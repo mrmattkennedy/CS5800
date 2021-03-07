@@ -94,10 +94,10 @@ As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are
 	An example is provided, called "example.txt"
 2. Using command line arguments
 
-	If the -file argument is not specified, and the -hH argument is not specified, the program will check if the -qQ, -sS, -dD, -q0Q0, -fF arguments are provided. If so, the program checks the argumenmt following each and verifies them.
+	If the -file argument is not specified, and the -hH argument is not specified, the program will check if the -qQ, -sS, -dD, -q0Q0, -fF arguments are provided. If so, the program checks the argument following each and verifies them.
 3. Manual input
 
-	If the there is no -file or -hH arguments, and the 5 tuple element arguments are not provided, the program will prompt the user for the 5 tuple elements to define the NFA/NFA-lambda.
+	If the there is no -file or -hH arguments, and the 5 tuple element arguments are not provided, the program will prompt the user for the 5 tuple elements to define the NFA/NFA-lambda. See above Tuple Elements section for formatting on each element
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
