@@ -97,10 +97,15 @@ As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are
 
 ### Examples
 ./nfa_lambda_dfa.py -file example.txt
+
 ./nfa_lambda_dfa.py -h
+
 ./nfa_lambda_dfa.py -q q0,q1,q2 -S a,b,c,lambda -D (q0,a,q0,q1,q2),(q1,b,q1),(q2,c,q2),(q2,lambda,q1) -Q0 q0 -f q1
+
 	This is from example 5.6.1 in the book
+	
 ./nfa_lambda_dfa.py -Q q0,q1,q2 -s a,b -d (q0,a,q0,q1),(q1,b,q1,q2) -q0 q0 -F q2
+
 	This is example 5.6.2 in the book
 
 <p>&nbsp;</p>
