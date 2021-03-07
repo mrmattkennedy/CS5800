@@ -86,7 +86,7 @@ Listed below is the way this program processes each element:
 
 ### Input/flags:
 As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are several ways to do this:
-1. Using the -file arguments
+1. Using the -file argument
 
 	When the -file argument is specified, the program will check if the argument following -flag is a valid file path.
 	If the file is valid, the program will attempt to read from the file. For a file to be valid, the file must have 5 lines, where each line starts with a unique tuple element (qQ, sS, dD, q0Q0, fF), followed by a ':'.
