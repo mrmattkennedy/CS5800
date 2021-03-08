@@ -23,6 +23,8 @@ If arguments passed in are invalid or missing, program will prompt user for a fi
 ### Example:
 ./dfa_simulator.py "dfa_file.txt" "aaaabbbb"
 
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
 ## NFA/NFA-lambda to DFA converter
 ### Running
