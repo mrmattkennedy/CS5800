@@ -263,6 +263,26 @@ class NFAL_DFA:
             None
 
         """
+        save_dfa = input("If you'd like to save the new DFA, enter the file path:\t")
+        #Save new DFA is user would like
+        if save_dfa:
+            #Create strings
+            q_prime_str = 'Q: {}'.format(','.join([''.join(q) for q in self.Q_prime]))
+            s_prime_str = 'S: {}'.format(','.join(self.S_prime))
+            d_prime_str = 'D: '
+            for k, v in self.D_prime.items():
+                d_prime_str += '({},{},{}),'.format(k[0], k[1], v)
+            d_prime_str = d_prime_str[:-1]
+            q0_prime_str = 'q0: {}'.format(','.join(self.start_state_lambda_closure))
+            f_prime_str = 'F: {}'.format(','.join([''.join(f) for f in self.F_prime]))
+
+            #Save new strings
+            with open(save_dfa, 'w') as f:
+                f.write(q_prime_str + '\n')
+                f.write(s_prime_str + '\n')
+                f.write(d_prime_str + '\n')
+                f.write(q0_prime_str + '\n')
+                f.write(f_prime_str + '\n')
 
         #Output transition table
         print('Input transition table of M:')
@@ -359,7 +379,7 @@ class NFAL_DFA:
             for symbol in self.S:
                 if symbol != 'lambda':
                     self.D_prime[(0, symbol)] = 0
-            self.Q_prime.append('0')
+            self.Q_prime.append(['0'])
 
 
 
