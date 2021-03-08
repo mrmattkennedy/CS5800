@@ -279,7 +279,8 @@ class NFAL_DFA:
             print('\t', ''.join(s))
 
         #Output alphabet
-        print("\nSigma prime is the same as Sigma (alphabet unchanged)")
+        print("\nSigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present")
+        print(','.join(self.S_prime))
 
         #Output delta
         print('\nDelta prime:')
@@ -314,7 +315,7 @@ class NFAL_DFA:
 
         """
         self.Q_prime = [self.start_state_lambda_closure]
-        self.S_prime = self.S
+        self.S_prime = [s for s in self.S if s != 'lambda']
         self.D_prime = {}
         self.F_prime = []
         

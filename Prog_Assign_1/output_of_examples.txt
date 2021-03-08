@@ -20,7 +20,8 @@ Q prime:
          q1q2
          0
 
-Sigma prime is the same as Sigma (alphabet unchanged)
+Sigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present
+a,b,c
 
 Delta prime:
          ('q0', 'a') -> q0q1q2
@@ -139,7 +140,8 @@ Q prime:
          q0q1q2
          0
 
-Sigma prime is the same as Sigma (alphabet unchanged)
+Sigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present
+a,b
 
 Delta prime:
          ('q0', 'a') -> q1
@@ -256,7 +258,8 @@ Q prime:
          q2
          0
 
-Sigma prime is the same as Sigma (alphabet unchanged)
+Sigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present
+a,b
 
 Delta prime:
          ('q0q1q3', 'a') -> q2q3
@@ -384,7 +387,8 @@ Q prime:
          q0q1q3
          0
 
-Sigma prime is the same as Sigma (alphabet unchanged)
+Sigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present
+a,b
 
 Delta prime:
          ('q0q1', 'a') -> q1
@@ -498,7 +502,8 @@ Q prime:
          q2
          0
 
-Sigma prime is the same as Sigma (alphabet unchanged)
+Sigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present
+a,b
 
 Delta prime:
          ('q0q2', 'a') -> q1
@@ -623,7 +628,8 @@ Q prime:
          q4
          0
 
-Sigma prime is the same as Sigma (alphabet unchanged)
+Sigma prime is the same as Sigma (alphabet) of M, except for removal of lambda if it was present
+a,b
 
 Delta prime:
          ('q0q1q5', 'a') -> q2q6
