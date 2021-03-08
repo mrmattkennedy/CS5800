@@ -1,6 +1,7 @@
 All code/work was created by Matthew Kennedy, for CS5800, spring semester 2021
 The purpose of this program is to convert a provided NFA or NFA-Lambda into a DFA, as well as test input strings.
 Examples of running this program located at the bottom.
+Please note - any instances of "0" seen for state is used to represent the empty state, as the actual symbol for that is not recognized by graphviz
 
 
 
@@ -107,7 +108,7 @@ As mentioned, this program requires an NFA/NFA-Lambda to be passed in. There are
 
 ./nfa_lambda_dfa.py -h
 
-./nfa_lambda_dfa.py -q q0,q1,q2 -S a,b,c,lambda -D (q0,a,q0,q1,q2),(q1,b,q1),(q2,c,q2),(q2,lambda,q1) -Q0 q0 -f q1
+./nfa_lambda_dfa.py -q "q0,q1,q2" -S "a,b,c,lambda" -D "(q0,a,q0,q1,q2),(q1,b,q1),(q2,c,q2),(q2,lambda,q1)" -Q0 "q0" -f "q1"
 
 	This is from example 5.6.1 in the book
 	

@@ -78,32 +78,24 @@ class NFAL_DFA:
 
         """
 
-        '''
-        #Test a few random strings - commented out because seems unnecessary
-        strings = []
-        print('Random strings:')
-        for _ in range(10):
-            string = ''.join(random.choice(self.S_prime) for i in range(random.randint(8, 20)))
-            strings.append(string)
-        
-        #Print computations, then result
-        for s in strings:
-            result, comps = self.process_string(s)
-            self.print_nicely(s, result, comps)
-        '''
-
         print('\n\n')
         print('='*50)
         print('Testing strings')
         print('='*50)
         print('\n')
 
-        #Test strings I made
-        print('\nMy own strings:')
-        strings = ['aabb', 'bbbbbbbbbb', 'aaaaabbbbb', 'abbbbbbbbb', 'aaaabbbbbbbbbbbbbbbbbb', 'aaaaaaaba', 'baaaaaaba']
-        for s in strings:
-            result, comps = self.process_string(s)
-            self.print_nicely(s, result, comps)
+        run_random = input("Would you like to run pre-built random strings? If yes, type anything and hit enter, if not, just hit enter: ")
+        if run_random:
+            #Create random strings
+            strings = []
+            for _ in range(10):
+                string = ''.join(random.choice(self.S_prime) for i in range(random.randint(8, 20)))
+                strings.append(string)
+
+            #Test/output random strings
+            for s in strings:
+                result, comps = self.process_string(s)
+                self.print_nicely(s, result, comps)
 
         print()
         #Give the option for custom strings
@@ -150,6 +142,7 @@ class NFAL_DFA:
 
         #Print column header, then pad each line with the max length for that column to align
         print('Starting state\tEnding state\tRemaining string\tCharacter processed')
+        print('-'*75)
         for line in comps[:-1]:
             col0_str_padded = line[0].ljust(col0_maxlen)
             col1_str_padded = line[1].ljust(col1_maxlen)
@@ -190,7 +183,10 @@ class NFAL_DFA:
                 old_state = state
                 state = self.D_prime[state, char_to_process]
                 string = string[1:]
-                computations.append([old_state, state, string, char_to_process])
+                if string:
+                    computations.append([old_state, state, string, char_to_process])
+                else:
+                    computations.append([old_state, state, 'lambda', char_to_process])
             else:
                 computations.append('No transitions available')
                 return 'REJECT', computations
@@ -268,25 +264,33 @@ class NFAL_DFA:
 
         """
 
-        print('Tuple elements of newly created DFA:\n')
+        #Output transition table
+        print('Input transition table of M:')
+        for k, v in self.input_trans_func.items():
+            if not v:
+                v = ['0']
+            v.sort()
+            print('\t', k, '->', ''.join(v))
+    
+        print('\nTuple elements of newly created DFA:\n')
         #Output states
         print("Q prime:")
         for s in self.Q_prime:
             print('\t', ''.join(s))
 
         #Output alphabet
-        print("Sigma prime is the same as Sigma (alphabet unchanged)")
+        print("\nSigma prime is the same as Sigma (alphabet unchanged)")
 
         #Output delta
-        print('Delta prime:')
+        print('\nDelta prime:')
         for k, v in self.D_prime.items():
             print('\t', k, '->', v)
 
         #Output start state
-        print('Start state of new DFA is equal to lambda closure of start state of M, which is {}'.format(self.start_state_lambda_closure))
+        print('\nStart state of new DFA is equal to lambda closure of start state of M, which is {}'.format(''.join(self.start_state_lambda_closure)))
 
         #Output final states
-        print('F prime:')
+        print('\nF prime:')
         for f in self.F_prime:
             print('\t', ''.join(f))
 
@@ -340,14 +344,20 @@ class NFAL_DFA:
                         if Y not in self.Q_prime:
                             self.Q_prime.append(Y)
 
+                    #Append string repr of Y as transition from the node/symbol
                     self.D_prime[node_str_rep, symbol] = Y_str_rep
-                    if any(s for s in Y if s in self.F) and Y not in self.F_prime:
-                        self.F_prime.append(Y)
-        
+                    
+        #Create F_prime
+        self.F_prime = []
+        for node in self.Q_prime:
+            if any(s for s in node if s in self.F) and node not in self.F_prime:
+                self.F_prime.append(node)
+
         #Add empty set recursion
         if any (v for v in self.D_prime.values() if v == '0'):
             for symbol in self.S:
-                self.D_prime[(0, symbol)] = 0
+                if symbol != 'lambda':
+                    self.D_prime[(0, symbol)] = 0
             self.Q_prime.append('0')
 
 

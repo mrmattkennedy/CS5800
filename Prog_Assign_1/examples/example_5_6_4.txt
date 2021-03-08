@@ -1,0 +1,5 @@
+Q: q0,q1,q2,q3
+S: a,b,lambda
+D: (q0,lambda,q1,q3),(q1,a,q2),(q2,b,q1),(q3,a,q3)
+Q0: q0 
+F: q2,q3

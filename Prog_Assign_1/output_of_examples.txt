@@ -1,0 +1,739 @@
+Example 5.6.1:
+New DFA (M-prime) elements, and input transition table of M
+Input transition table of M:
+         ('q0', 'a') -> q0q1q2
+         ('q0', 'b') -> 0
+         ('q0', 'c') -> 0
+         ('q1', 'a') -> 0
+         ('q1', 'b') -> q1
+         ('q1', 'c') -> 0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q1
+         ('q2', 'c') -> q1q2
+
+Tuple elements of newly created DFA:
+
+Q prime:
+         q0
+         q0q1q2
+         q1
+         q1q2
+         0
+
+Sigma prime is the same as Sigma (alphabet unchanged)
+
+Delta prime:
+         ('q0', 'a') -> q0q1q2
+         ('q0', 'b') -> 0
+         ('q0', 'c') -> 0
+         ('q0q1q2', 'a') -> q0q1q2
+         ('q0q1q2', 'b') -> q1
+         ('q0q1q2', 'c') -> q1q2
+         ('q1', 'a') -> 0
+         ('q1', 'b') -> q1
+         ('q1', 'c') -> 0
+         ('q1q2', 'a') -> 0
+         ('q1q2', 'b') -> q1
+         ('q1q2', 'c') -> q1q2
+         (0, 'a') -> 0
+         (0, 'b') -> 0
+         (0, 'c') -> 0
+
+Start state of new DFA is equal to lambda closure of start state of M, which is q0
+
+F prime:
+         q0q1q2
+         q1
+         q1q2
+		 
+		 
+		
+Graphviz output:
+digraph matt_kennedys_output {{
+	rankdir=LR;
+	size="8,5"
+	node [shape = doublecircle]; {q0q1q2}{q1}{q1q2}
+	node [shape = circle];
+	{q0} -> {q0q1q2} [ label = "a" ];
+	{q0} -> {0} [ label = "b" ];
+	{q0} -> {0} [ label = "c" ];
+	{q0q1q2} -> {q0q1q2} [ label = "a" ];
+	{q0q1q2} -> {q1} [ label = "b" ];
+	{q0q1q2} -> {q1q2} [ label = "c" ];
+	{q1} -> {0} [ label = "a" ];
+	{q1} -> {q1} [ label = "b" ];
+	{q1} -> {0} [ label = "c" ];
+	{q1q2} -> {0} [ label = "a" ];
+	{q1q2} -> {q1} [ label = "b" ];
+	{q1q2} -> {q1q2} [ label = "c" ];
+	{0} -> {0} [ label = "a" ];
+	{0} -> {0} [ label = "b" ];
+	{0} -> {0} [ label = "c" ];
+}}
+
+
+==================================================
+Testing strings
+==================================================
+
+Enter a string to test, or leave blank to exit: aaaaccbbbbbbb
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0              lambda          aaaaccbbbbbbb           lambda
+q0              q0q1q2          aaaccbbbbbbb            a
+q0q1q2          q0q1q2          aaccbbbbbbb             a
+q0q1q2          q0q1q2          accbbbbbbb              a
+q0q1q2          q0q1q2          ccbbbbbbb               a
+q0q1q2          q1q2            cbbbbbbb                c
+q1q2            q1q2            bbbbbbb                 c
+q1q2            q1              bbbbbb                  b
+q1              q1              bbbbb                   b
+q1              q1              bbbb                    b
+q1              q1              bbb                     b
+q1              q1              bb                      b
+q1              q1              b                       b
+q1              q1              lambda                  b
+String finished processing, ended in final state
+String aaaaccbbbbbbb: ACCEPT
+
+
+Enter a string to test, or leave blank to exit: aaaaccccbc
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0              lambda          aaaaccccbc              lambda
+q0              q0q1q2          aaaccccbc               a
+q0q1q2          q0q1q2          aaccccbc                a
+q0q1q2          q0q1q2          accccbc                 a
+q0q1q2          q0q1q2          ccccbc                  a
+q0q1q2          q1q2            cccbc                   c
+q1q2            q1q2            ccbc                    c
+q1q2            q1q2            cbc                     c
+q1q2            q1q2            bc                      c
+q1q2            q1              c                       b
+q1              0               lambda                  c
+String finished processing, ended at non-final state
+String aaaaccccbc: REJECT
+
+
+
+
+Example 5.6.3:
+New DFA (M-prime) elements, and input transition table of M
+Input transition table of M:
+         ('q0', 'a') -> q1
+         ('q0', 'b') -> q2
+         ('q1', 'a') -> q0q1
+         ('q1', 'b') -> q0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q1q2
+
+Tuple elements of newly created DFA:
+
+Q prime:
+         q0
+         q1
+         q2
+         q0q1
+         q1q2
+         q0q2
+         q0q1q2
+         0
+
+Sigma prime is the same as Sigma (alphabet unchanged)
+
+Delta prime:
+         ('q0', 'a') -> q1
+         ('q0', 'b') -> q2
+         ('q1', 'a') -> q0q1
+         ('q1', 'b') -> q0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q1q2
+         ('q0q1', 'a') -> q0q1
+         ('q0q1', 'b') -> q0q2
+         ('q1q2', 'a') -> q0q1
+         ('q1q2', 'b') -> q0q1q2
+         ('q0q2', 'a') -> q1
+         ('q0q2', 'b') -> q1q2
+         ('q0q1q2', 'a') -> q0q1
+         ('q0q1q2', 'b') -> q0q1q2
+         (0, 'a') -> 0
+         (0, 'b') -> 0
+
+Start state of new DFA is equal to lambda closure of start state of M, which is q0
+
+F prime:
+         q2
+         q1q2
+         q0q2
+         q0q1q2
+		 
+
+
+Graphviz output:
+digraph matt_kennedys_output {{
+	rankdir=LR;
+	size="8,5"
+	node [shape = doublecircle]; {q2}{q1q2}{q0q2}{q0q1q2}
+	node [shape = circle];
+	{q0} -> {q1} [ label = "a" ];
+	{q0} -> {q2} [ label = "b" ];
+	{q1} -> {q0q1} [ label = "a" ];
+	{q1} -> {q0} [ label = "b" ];
+	{q2} -> {0} [ label = "a" ];
+	{q2} -> {q1q2} [ label = "b" ];
+	{q0q1} -> {q0q1} [ label = "a" ];
+	{q0q1} -> {q0q2} [ label = "b" ];
+	{q1q2} -> {q0q1} [ label = "a" ];
+	{q1q2} -> {q0q1q2} [ label = "b" ];
+	{q0q2} -> {q1} [ label = "a" ];
+	{q0q2} -> {q1q2} [ label = "b" ];
+	{q0q1q2} -> {q0q1} [ label = "a" ];
+	{q0q1q2} -> {q0q1q2} [ label = "b" ];
+	{0} -> {0} [ label = "a" ];
+	{0} -> {0} [ label = "b" ];
+}}
+
+
+
+==================================================
+Testing strings
+==================================================
+
+Enter a string to test, or leave blank to exit: aaaabbbb
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0              lambda          aaaabbbb                lambda
+q0              q1              aaabbbb                 a
+q1              q0q1            aabbbb                  a
+q0q1            q0q1            abbbb                   a
+q0q1            q0q1            bbbb                    a
+q0q1            q0q2            bbb                     b
+q0q2            q1q2            bb                      b
+q1q2            q0q1q2          b                       b
+q0q1q2          q0q1q2          lambda                  b
+String finished processing, ended in final state
+String aaaabbbb: ACCEPT
+
+Enter a string to test, or leave blank to exit: aaaaaaaaba
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0              lambda          aaaaaaaaba              lambda
+q0              q1              aaaaaaaba               a
+q1              q0q1            aaaaaaba                a
+q0q1            q0q1            aaaaaba                 a
+q0q1            q0q1            aaaaba                  a
+q0q1            q0q1            aaaba                   a
+q0q1            q0q1            aaba                    a
+q0q1            q0q1            aba                     a
+q0q1            q0q1            ba                      a
+q0q1            q0q2            a                       b
+q0q2            q1              lambda                  a
+String finished processing, ended at non-final state
+String aaaaaaaaba: REJECT
+
+
+
+
+Example 5.6.4:
+New DFA (M-prime) elements, and input transition table of M
+Input transition table of M:
+         ('q0', 'a') -> q2q3
+         ('q0', 'b') -> 0
+         ('q1', 'a') -> q2
+         ('q1', 'b') -> 0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q1
+         ('q3', 'a') -> q3
+         ('q3', 'b') -> 0
+
+Tuple elements of newly created DFA:
+
+Q prime:
+         q0q1q3
+         q2q3
+         q3
+         q1
+         q2
+         0
+
+Sigma prime is the same as Sigma (alphabet unchanged)
+
+Delta prime:
+         ('q0q1q3', 'a') -> q2q3
+         ('q0q1q3', 'b') -> 0
+         ('q2q3', 'a') -> q3
+         ('q2q3', 'b') -> q1
+         ('q3', 'a') -> q3
+         ('q3', 'b') -> 0
+         ('q1', 'a') -> q2
+         ('q1', 'b') -> 0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q1
+         (0, 'a') -> 0
+         (0, 'b') -> 0
+
+Start state of new DFA is equal to lambda closure of start state of M, which is q0q1q3
+
+F prime:
+         q0q1q3
+         q2q3
+         q3
+         q2
+		 
+		 
+Graphviz output:
+digraph matt_kennedys_output {{
+        rankdir=LR;
+        size="8,5"
+        node [shape = doublecircle]; {q0q1q3}{q2q3}{q3}{q2}
+        node [shape = circle];
+        {q0q1q3} -> {q2q3} [ label = "a" ];
+        {q0q1q3} -> {0} [ label = "b" ];
+        {q2q3} -> {q3} [ label = "a" ];
+        {q2q3} -> {q1} [ label = "b" ];
+        {q3} -> {q3} [ label = "a" ];
+        {q3} -> {0} [ label = "b" ];
+        {q1} -> {q2} [ label = "a" ];
+        {q1} -> {0} [ label = "b" ];
+        {q2} -> {0} [ label = "a" ];
+        {q2} -> {q1} [ label = "b" ];
+        {0} -> {0} [ label = "a" ];
+        {0} -> {0} [ label = "b" ];
+}}
+
+
+
+==================================================
+Testing strings
+==================================================
+
+Enter a string to test, or leave blank to exit: ababababa
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1q3          lambda          ababababa               lambda
+q0q1q3          q2q3            babababa                a
+q2q3            q1              abababa                 b
+q1              q2              bababa                  a
+q2              q1              ababa                   b
+q1              q2              baba                    a
+q2              q1              aba                     b
+q1              q2              ba                      a
+q2              q1              a                       b
+q1              q2              lambda                  a
+String finished processing, ended in final state
+String ababababa: ACCEPT
+
+Enter a string to test, or leave blank to exit: abababababab
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1q3          lambda          abababababab            lambda
+q0q1q3          q2q3            bababababab             a
+q2q3            q1              ababababab              b
+q1              q2              babababab               a
+q2              q1              abababab                b
+q1              q2              bababab                 a
+q2              q1              ababab                  b
+q1              q2              babab                   a
+q2              q1              abab                    b
+q1              q2              bab                     a
+q2              q1              ab                      b
+q1              q2              b                       a
+q2              q1              lambda                  b
+String finished processing, ended at non-final state
+String abababababab: REJECT
+
+Enter a string to test, or leave blank to exit: aaaaaaaab
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1q3          lambda          aaaaaaaab               lambda
+q0q1q3          q2q3            aaaaaaab                a
+q2q3            q3              aaaaaab                 a
+q3              q3              aaaaab                  a
+q3              q3              aaaab                   a
+q3              q3              aaab                    a
+q3              q3              aab                     a
+q3              q3              ab                      a
+q3              q3              b                       a
+q3              0               lambda                  b
+String finished processing, ended at non-final state
+String aaaaaaaab: REJECT
+
+
+
+
+Problem 37:
+New DFA (M-prime) elements, and input transition table of M:
+Input transition table of M:
+         ('q0', 'a') -> q1
+         ('q0', 'b') -> q1q2q3
+         ('q1', 'a') -> 0
+         ('q1', 'b') -> q1q3
+         ('q2', 'a') -> q0q3
+         ('q2', 'b') -> q2
+         ('q3', 'a') -> q0q3
+         ('q3', 'b') -> q2
+
+Tuple elements of newly created DFA:
+
+Q prime:
+         q0q1
+         q1
+         q1q2q3
+         q1q3
+         q0q3
+         q0q1q3
+         0
+
+Sigma prime is the same as Sigma (alphabet unchanged)
+
+Delta prime:
+         ('q0q1', 'a') -> q1
+         ('q0q1', 'b') -> q1q2q3
+         ('q1', 'a') -> 0
+         ('q1', 'b') -> q1q3
+         ('q1q2q3', 'a') -> q0q3
+         ('q1q2q3', 'b') -> q1q2q3
+         ('q1q3', 'a') -> q0q3
+         ('q1q3', 'b') -> q1q2q3
+         ('q0q3', 'a') -> q0q1q3
+         ('q0q3', 'b') -> q1q2q3
+         ('q0q1q3', 'a') -> q0q1q3
+         ('q0q1q3', 'b') -> q1q2q3
+         (0, 'a') -> 0
+         (0, 'b') -> 0
+
+Start state of new DFA is equal to lambda closure of start state of M, which is q0q1
+
+F prime:
+         q0q1
+         q1
+         q1q2q3
+         q1q3
+         q0q1q3
+		 
+		 
+		 
+Graphviz output:
+digraph matt_kennedys_output {{
+	rankdir=LR;
+	size="8,5"
+	node [shape = doublecircle]; {q0q1}{q1}{q1q2q3}{q1q3}{q0q1q3}
+	node [shape = circle];
+	{q0q1} -> {q1} [ label = "a" ];
+	{q0q1} -> {q1q2q3} [ label = "b" ];
+	{q1} -> {0} [ label = "a" ];
+	{q1} -> {q1q3} [ label = "b" ];
+	{q1q2q3} -> {q0q3} [ label = "a" ];
+	{q1q2q3} -> {q1q2q3} [ label = "b" ];
+	{q1q3} -> {q0q3} [ label = "a" ];
+	{q1q3} -> {q1q2q3} [ label = "b" ];
+	{q0q3} -> {q0q1q3} [ label = "a" ];
+	{q0q3} -> {q1q2q3} [ label = "b" ];
+	{q0q1q3} -> {q0q1q3} [ label = "a" ];
+	{q0q1q3} -> {q1q2q3} [ label = "b" ];
+	{0} -> {0} [ label = "a" ];
+	{0} -> {0} [ label = "b" ];
+}}
+
+
+
+==================================================
+Testing strings
+==================================================
+
+Enter a string to test, or leave blank to exit: baaaaabaa
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1            lambda          baaaaabaa               lambda
+q0q1            q1q2q3          aaaaabaa                b
+q1q2q3          q0q3            aaaabaa                 a
+q0q3            q0q1q3          aaabaa                  a
+q0q1q3          q0q1q3          aabaa                   a
+q0q1q3          q0q1q3          abaa                    a
+q0q1q3          q0q1q3          baa                     a
+q0q1q3          q1q2q3          aa                      b
+q1q2q3          q0q3            a                       a
+q0q3            q0q1q3          lambda                  a
+String finished processing, ended in final state
+String baaaaabaa: ACCEPT
+
+Enter a string to test, or leave blank to exit: baaaaaaba
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1            lambda          baaaaaaba               lambda
+q0q1            q1q2q3          aaaaaaba                b
+q1q2q3          q0q3            aaaaaba                 a
+q0q3            q0q1q3          aaaaba                  a
+q0q1q3          q0q1q3          aaaba                   a
+q0q1q3          q0q1q3          aaba                    a
+q0q1q3          q0q1q3          aba                     a
+q0q1q3          q0q1q3          ba                      a
+q0q1q3          q1q2q3          a                       b
+q1q2q3          q0q3            lambda                  a
+String finished processing, ended at non-final state
+String baaaaaaba: REJECT
+
+
+
+
+Problem 41:
+New DFA (M-prime) elements, and input transition table of M:
+Input transition table of M prime:
+         ('q0', 'a') -> q1
+         ('q0', 'b') -> q3
+         ('q1', 'a') -> 0
+         ('q1', 'b') -> q0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q3
+         ('q3', 'a') -> q2
+         ('q3', 'b') -> 0
+
+Tuple elements of newly created DFA:
+
+Q prime:
+         q0q2
+         q1
+         q3
+         q0
+         q2
+         0
+
+Sigma prime is the same as Sigma (alphabet unchanged)
+
+Delta prime:
+         ('q0q2', 'a') -> q1
+         ('q0q2', 'b') -> q3
+         ('q1', 'a') -> 0
+         ('q1', 'b') -> q0
+         ('q3', 'a') -> q2
+         ('q3', 'b') -> 0
+         ('q0', 'a') -> q1
+         ('q0', 'b') -> q3
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q3
+         (0, 'a') -> 0
+         (0, 'b') -> 0
+
+Start state of new DFA is equal to lambda closure of start state of M, which is q0q2
+
+F prime:
+         q0q2
+         q0
+         q2
+		 
+		 
+		 
+Graphviz output:
+digraph matt_kennedys_output {{
+	rankdir=LR;
+	size="8,5"
+	node [shape = doublecircle]; {q0q2}{q0}{q2}
+	node [shape = circle];
+	{q0q2} -> {q1} [ label = "a" ];
+	{q0q2} -> {q3} [ label = "b" ];
+	{q1} -> {0} [ label = "a" ];
+	{q1} -> {q0} [ label = "b" ];
+	{q3} -> {q2} [ label = "a" ];
+	{q3} -> {0} [ label = "b" ];
+	{q0} -> {q1} [ label = "a" ];
+	{q0} -> {q3} [ label = "b" ];
+	{q2} -> {0} [ label = "a" ];
+	{q2} -> {q3} [ label = "b" ];
+	{0} -> {0} [ label = "a" ];
+	{0} -> {0} [ label = "b" ];
+}}
+
+
+
+==================================================
+Testing strings
+===================================================
+
+Enter a string to test, or leave blank to exit: ababababbababa
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q2            lambda          ababababbababa          lambda
+q0q2            q1              babababbababa           a
+q1              q0              abababbababa            b
+q0              q1              bababbababa             a
+q1              q0              ababbababa              b
+q0              q1              babbababa               a
+q1              q0              abbababa                b
+q0              q1              bbababa                 a
+q1              q0              bababa                  b
+q0              q3              ababa                   b
+q3              q2              baba                    a
+q2              q3              aba                     b
+q3              q2              ba                      a
+q2              q3              a                       b
+q3              q2              lambda                  a
+String finished processing, ended in final state
+String ababababbababa: ACCEPT
+
+Enter a string to test, or leave blank to exit: abababbabab
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q2            lambda          abababbabab             lambda
+q0q2            q1              bababbabab              a
+q1              q0              ababbabab               b
+q0              q1              babbabab                a
+q1              q0              abbabab                 b
+q0              q1              bbabab                  a
+q1              q0              babab                   b
+q0              q3              abab                    b
+q3              q2              bab                     a
+q2              q3              ab                      b
+q3              q2              b                       a
+q2              q3              lambda                  b
+String finished processing, ended at non-final state
+String abababbabab: REJECT
+
+
+
+
+Problem 42:
+New DFA (M-prime) elements, and input transition table of M:
+Input transition table of M prime:
+         ('q0', 'a') -> q2q6
+         ('q0', 'b') -> 0
+         ('q1', 'a') -> q2
+         ('q1', 'b') -> 0
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q3
+         ('q3', 'a') -> q4
+         ('q3', 'b') -> 0
+         ('q4', 'a') -> q2
+         ('q4', 'b') -> 0
+         ('q5', 'a') -> q6
+         ('q5', 'b') -> 0
+         ('q6', 'a') -> 0
+         ('q6', 'b') -> q5
+
+Tuple elements of newly created DFA:
+
+Q prime:
+         q0q1q5
+         q2q6
+         q3q5
+         q4q6
+         q2
+         q5
+         q3
+         q6
+         q4
+         0
+
+Sigma prime is the same as Sigma (alphabet unchanged)
+
+Delta prime:
+         ('q0q1q5', 'a') -> q2q6
+         ('q0q1q5', 'b') -> 0
+         ('q2q6', 'a') -> 0
+         ('q2q6', 'b') -> q3q5
+         ('q3q5', 'a') -> q4q6
+         ('q3q5', 'b') -> 0
+         ('q4q6', 'a') -> q2
+         ('q4q6', 'b') -> q5
+         ('q2', 'a') -> 0
+         ('q2', 'b') -> q3
+         ('q5', 'a') -> q6
+         ('q5', 'b') -> 0
+         ('q3', 'a') -> q4
+         ('q3', 'b') -> 0
+         ('q6', 'a') -> 0
+         ('q6', 'b') -> q5
+         ('q4', 'a') -> q2
+         ('q4', 'b') -> 0
+         (0, 'a') -> 0
+         (0, 'b') -> 0
+
+Start state of new DFA is equal to lambda closure of start state of M, which is q0q1q5
+
+F prime:
+         q0q1q5
+         q3q5
+         q4q6
+         q5
+         q4
+		 
+		 
+		 
+Graphiz output:
+digraph matt_kennedys_output {{
+	rankdir=LR;
+	size="8,5"
+	node [shape = doublecircle]; {q0q1q5}{q3q5}{q4q6}{q5}{q4}
+	node [shape = circle];
+	{q0q1q5} -> {q2q6} [ label = "a" ];
+	{q0q1q5} -> {0} [ label = "b" ];
+	{q2q6} -> {0} [ label = "a" ];
+	{q2q6} -> {q3q5} [ label = "b" ];
+	{q3q5} -> {q4q6} [ label = "a" ];
+	{q3q5} -> {0} [ label = "b" ];
+	{q4q6} -> {q2} [ label = "a" ];
+	{q4q6} -> {q5} [ label = "b" ];
+	{q2} -> {0} [ label = "a" ];
+	{q2} -> {q3} [ label = "b" ];
+	{q5} -> {q6} [ label = "a" ];
+	{q5} -> {0} [ label = "b" ];
+	{q3} -> {q4} [ label = "a" ];
+	{q3} -> {0} [ label = "b" ];
+	{q6} -> {0} [ label = "a" ];
+	{q6} -> {q5} [ label = "b" ];
+	{q4} -> {q2} [ label = "a" ];
+	{q4} -> {0} [ label = "b" ];
+	{0} -> {0} [ label = "a" ];
+	{0} -> {0} [ label = "b" ];
+}}
+
+
+
+==================================================
+Testing strings
+==================================================
+
+Enter a string to test, or leave blank to exit: abaabaaba
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1q5          lambda          abaabaaba               lambda
+q0q1q5          q2q6            baabaaba                a
+q2q6            q3q5            aabaaba                 b
+q3q5            q4q6            abaaba                  a
+q4q6            q2              baaba                   a
+q2              q3              aaba                    b
+q3              q4              aba                     a
+q4              q2              ba                      a
+q2              q3              a                       b
+q3              q4              lambda                  a
+String finished processing, ended in final state
+String abaabaaba: ACCEPT
+
+Enter a string to test, or leave blank to exit: abaabaab
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1q5          lambda          abaabaab                lambda
+q0q1q5          q2q6            baabaab                 a
+q2q6            q3q5            aabaab                  b
+q3q5            q4q6            abaab                   a
+q4q6            q2              baab                    a
+q2              q3              aab                     b
+q3              q4              ab                      a
+q4              q2              b                       a
+q2              q3              lambda                  b
+String finished processing, ended at non-final state
+String abaabaab: REJECT
+
+Enter a string to test, or leave blank to exit: abaabaab
+Starting state  Ending state    Remaining string        Character processed
+---------------------------------------------------------------------------
+q0q1q5          lambda          abaabaab                lambda
+q0q1q5          q2q6            baabaab                 a
+q2q6            q3q5            aabaab                  b
+q3q5            q4q6            abaab                   a
+q4q6            q2              baab                    a
+q2              q3              aab                     b
+q3              q4              ab                      a
+q4              q2              b                       a
+q2              q3              lambda                  b
+String finished processing, ended at non-final state
+String abaabaab: REJECT
