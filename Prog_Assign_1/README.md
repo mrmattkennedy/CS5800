@@ -4,7 +4,12 @@ Examples of running this program located at the bottom.
 Please note - any instances of "0" seen for state is used to represent the empty state, as the actual symbol for that is not recognized by graphviz
 
 
+## Modules
+There are 2 modules:
+* An NFA/NFA-lambda to DFA converter, which can test input strings against newly-created DFA
+* A DFA simulator, which will read in a DFA from file, and process a provided string against the DFA
 
+### Everything below relates to NFA/NFA-lambda to DFA converter
 ### Running
 There are 3 ways to run this program:
 * Using the .exe file (Windows only)
