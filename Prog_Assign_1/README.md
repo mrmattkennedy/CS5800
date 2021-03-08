@@ -9,7 +9,18 @@ There are 2 modules:
 * An NFA/NFA-lambda to DFA converter, which can test input strings against newly-created DFA
 * A DFA simulator, which will read in a DFA from file, and process a provided string against the DFA
 
-### Everything below relates to NFA/NFA-lambda to DFA converter
+## Everything below relates to DFA simulator
+To run this, there are 2 arguments that must be passed in:
+1. File path to create DFA from
+
+	For an example on how this file should look, see file "example_dfa.txt"
+3. String to process
+
+### Example:
+./dfa_simulator.py "dfa_file.txt" "aaaabbbb"
+
+
+## Everything below relates to NFA/NFA-lambda to DFA converter
 ### Running
 There are 3 ways to run this program:
 * Using the .exe file (Windows only)
