@@ -1,5 +1,5 @@
 Example 5.6.1:
-New DFA (M-prime) elements, and input transition table of M
+New DFA (M-prime) elements, and input transition table of M:
 Input transition table of M:
          ('q0', 'a') -> q0q1q2
          ('q0', 'b') -> 0
@@ -118,7 +118,7 @@ String aaaaccccbc: REJECT
 
 
 Example 5.6.3:
-New DFA (M-prime) elements, and input transition table of M
+New DFA (M-prime) elements, and input transition table of M:
 Input transition table of M:
          ('q0', 'a') -> q1
          ('q0', 'b') -> q2
@@ -235,7 +235,7 @@ String aaaaaaaaba: REJECT
 
 
 Example 5.6.4:
-New DFA (M-prime) elements, and input transition table of M
+New DFA (M-prime) elements, and input transition table of M:
 Input transition table of M:
          ('q0', 'a') -> q2q3
          ('q0', 'b') -> 0
@@ -362,7 +362,7 @@ String aaaaaaaab: REJECT
 
 
 Problem 37:
-New DFA (M-prime) elements, and input transition table of M:
+New DFA (M-prime) elements, and input transition table of M::
 Input transition table of M:
          ('q0', 'a') -> q1
          ('q0', 'b') -> q1q2q3
@@ -477,7 +477,7 @@ String baaaaaaba: REJECT
 
 
 Problem 41:
-New DFA (M-prime) elements, and input transition table of M:
+New DFA (M-prime) elements, and input transition table of M::
 Input transition table of M prime:
          ('q0', 'a') -> q1
          ('q0', 'b') -> q3
@@ -592,7 +592,7 @@ String abababbabab: REJECT
 
 
 Problem 42:
-New DFA (M-prime) elements, and input transition table of M:
+New DFA (M-prime) elements, and input transition table of M::
 Input transition table of M prime:
          ('q0', 'a') -> q2q6
          ('q0', 'b') -> 0
