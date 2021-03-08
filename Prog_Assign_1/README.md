@@ -16,6 +16,10 @@ To run this, there are 2 arguments that must be passed in:
 	For an example on how this file should look, see file "example_dfa.txt"
 3. String to process
 
+
+If arguments passed in are invalid or missing, program will prompt user for a file and string to process.
+
+
 ### Example:
 ./dfa_simulator.py "dfa_file.txt" "aaaabbbb"
 
