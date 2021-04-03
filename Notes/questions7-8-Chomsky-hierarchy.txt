@@ -1,0 +1,96 @@
+Study questions CS 5800
+Ch. 7 Sudkamp: PDAs and CFLs
++ Notes
+
+- Define: standard PDA as a 6-tuple; explain each element,
+  include how the transition maps and give an example
+  of a "standard" transition.
+- Define: acceptance in a PDA (by final state and 
+  empty stack).
+- Computation: [q0,w,lambda] |- ...
+               sequence of configurations
+  Configuration:
+     [state, what's left of the string, stack contents]  
+- Define: language of PDA (using computation notation).
+- Examples of PDAs.
+- Is the nondeterministic PDA more powerful than 
+  a deterministic PDA in general?
+- Explain why there is no deterministic PDA that accepts
+  L = {ww^R | w in {a,b}*}. 
+- What are atomic transitions, atomic PDA?
+- What are extended transitions, extended PDA?
+- Conversions between atomic, standard and extended 
+  transitions and PDAs; show a computation for the same
+  string in the three forms.
+- Prove: For a given PDA, there is an atomic PDA accepting
+         the same language.
+- Illustrate the theorem:
+         For a given extended PDA, there is a standard PDA
+         accepting the same language.
+NOT to study: acceptance by final state,
+              acceptance by empty stack.
+- Give a PDA for the language of strings of a-s and b-s
+  with the same number of a-s and b-s 
+  (using bottom-of-the-stack marker).
+- Define Greibach Normal Form (GNF)
+- Convert GNF -> PDA.
+- Computation in PDA and derivation in GNF CFG 
+- Theorem: a language L is accepted by a PDA
+           <=> L is derived by a CFG
+NOT to study: PDA -> CFG
+- Prove: property of binary trees (Lemma: P1 => P2)
+  + rewrite lemma not P2 => not P1
+- Prove: |w| >= 2^n => depth(T) >= n+1
+- State and prove (the pumping property of)
+  the pumping lemma for CFLs.
+- Show that some languages are not CFLs.
+- Show that the set of the CFLs is closed under:
+  union, concatenation, Kleene star.
+- Show that the set of the CFLs is not closed under: 
+  intersection, complementation.
+
+Ch. 8: Turing machines
++ Notes
+- Explain how a decision problem relates to a membership
+  problem in a language. Give an example.
+- Give characteristics of an algorithm. 
+- Is a nondeterministic TM more powerful than a 
+  deterministic TM in general?
+- State the Church-Turing thesis.
+- Define: standard TM as a 5-tuple; explain each element,
+  include how the transition maps and give example;
+  include picture on tape.
+- For given Copy TM, list computation on given string.
+- For given TM, list computation on given string.
+- Define: language of TM, acceptance by final state.
+- Define: standard TM language acceptor as a 6-tuple; 
+  explain each element, include how the transition maps 
+  and give example with picture of tape.
+- Define: recursively enumerable (r.e.) language. Give picture.
+- Define: recursive language. Give picture.
+- Examples of TMs. 
+- Construct a TM acceptor for the language ...
+  Give a computation on the string ...
+- What is a multi-track TM? Give a picture.
+  How does the transition function map?
+- Example of 2-track TM.
+- What is a two-way TM?
+- Prove the equivalence of standard and 2-way TM.
+- State equivalences of other TM variations (also NTM) with standard TM.
+- Define a multi-tape TM. Give a picture.
+  How does the transition function map?
+- Give a 3-tape TM for Lsq.
+  Describe how it works for u = aa...a
+- Construct a TM enumerator for ...
+
+Chomsky hierarchy
+Notes
+- Give a table of the Chomsky hierarchy of languages, grammars and
+  machines. Include the forms of the grammar rules.
+- Give a diagram of the Chomsky hierarchy of languages, grammars and
+  machines. Include the LBA-accepted languages.
+- Give a language that is of type i but not type i+1.
+- Define: CSL, LBA.
+- State theorem: If L is a CSL, then ...
+                 If L is accepted by an LBA, then ...
+
