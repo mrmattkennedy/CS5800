@@ -46,7 +46,7 @@ class NFA_DFA_Conv:
                 node_str_rep = ''.join(node)
                 if not (node_str_rep, symbol) in self.D_prime.keys():                    
                     Y = []
-                    #For each state in taht node, get the input transitive function value
+                    #For each state in that node, get the input transitive function value
                     for state in node:
                         if self.input_trans_func[state, symbol]:
                             for s in self.input_trans_func[state, symbol]:
@@ -63,7 +63,34 @@ class NFA_DFA_Conv:
 
                     #Append string repr of Y as transition from the node/symbol
                     self.D_prime[node_str_rep, symbol] = Y_str_rep
+
+        #Check if any nodes that were in original Q are not in Q_prime
+        for q in self.Q:
+            if not any(q in new_states for new_states in self.Q_prime):
+                #Add to Q_prime
+                self.Q_prime.append([q])
+                for symbol in self.S: 
+                    if symbol == 'lambda':
+                        continue
                     
+                    Y = []
+                    #For each state in that node, get the input transitive function value
+                    if self.input_trans_func[q, symbol]:
+                        for s in self.input_trans_func[q, symbol]:
+                            #If value not already in Y, add it
+                            if s not in Y:
+                                Y.append(s)
+
+                    #Create string repr for Y, used for Delta
+                    Y.sort()
+                    Y_str_rep = "{}".format(''.join(Y)) if Y else '0'
+                    if Y:
+                        if Y not in self.Q_prime:
+                            self.Q_prime.append(Y)
+
+                    #Append string repr of Y as transition from the node/symbol
+                    self.D_prime[q, symbol] = Y_str_rep
+
         #Create F_prime
         self.F_prime = []
         for node in self.Q_prime:
@@ -74,7 +101,7 @@ class NFA_DFA_Conv:
         if any (v for v in self.D_prime.values() if v == '0'):
             for symbol in self.S:
                 if symbol != 'lambda':
-                    self.D_prime[(0, symbol)] = 0
+                    self.D_prime[('0', symbol)] = '0'
             self.Q_prime.append(['0'])
 
 
@@ -221,7 +248,6 @@ class Min_DFA:
                         string_to_process = ''.join(random.choice(self.S) for i in range(100))
                         state1 = ''.join(first_state)
                         state2 = ''.join(state)
-                        if state2 == '0': state2 = 0
 
                         #Process each string for both states, check equivalency at every step
                         for char_to_process in string_to_process:
@@ -270,7 +296,7 @@ class Min_DFA:
                     if (state, s) in block_transitions:
                         s_transitions.append(block_transitions[state, s])
 
-                s_transitions = [q for sub in s_transitions for q in sub]
+                #s_transitions = [q for q in s_transitions]
                 #Verify each transition belongs to the same block
                 for to_block in self.blocks:
                     #Check if any transitions belong in this block, then verify all transitions belong in this block
@@ -284,8 +310,75 @@ class Min_DFA:
                             self.D_prime[''.join(block), s] = ''.join(to_block)
                             break
 
+
+
+    def process_string(self, string):
+        """Processes a string provided one char at a time.
+        If at any point no possible path to follow, returns False
+        If entire string processed, but ends not on a final string, return False
+        Otherwise, return True
+        Args:
+            None
+        Returns:
+            ACCEPT if string processed correctly
+            REJECT if not
+            Computations that took place
+        """
+    
+        #Start state
+        state = ''.join(self.q0_prime)
+        computations = [[state, 'lambda', string, 'lambda']]
+
+        #Process string, if ever not an option to move, just return False
+        while string:
+            char_to_process = string[0]
+            if (state, char_to_process) in self.D_prime.keys():
+                old_state = state
+                state = ''.join(self.D_prime[state, char_to_process])
+
+                if string: computations.append([old_state, state, string, char_to_process])
+                else: computations.append([old_state, state, 'lambda', char_to_process])
+
+                string = string[1:]
+
+            else:
+                computations.append('No transitions available')
+                return 'REJECT', computations
+
+        #Make sure actually in a final state
+        for f in self.F_prime:
+            f_str_repr = ''.join(f)
+            if f_str_repr == state:
+                computations.append('String finished processing, ended in final state')
+                return 'ACCEPT', computations
+
+        computations.append('String finished processing, ended at non-final state')
+        return 'REJECT', computations
+
+
+
+    def get_graphviz(self):
+        final_nodes_str_repr = ''.join(["{{{}}}".format(''.join(f)) for f in self.F_prime])
+
+        #Create string for all transition functions
+        transitions_str_repr = ""
         for k, v in self.D_prime.items():
-            print(k, v)
+            start = "{{{}}}".format(k[0])
+            end = "{{{}}}".format(v)
+            label = k[1]
+
+            line = '\t{} -> {} [ label = "{}" ];\n'.format(start, end, label)
+            transitions_str_repr += line
+
+        #Create actual output string
+        output_str = 'digraph matt_kennedys_output {{'
+        output_str += '\n\trankdir=LR;'
+        output_str += '\n\tsize="8,5"'
+        output_str += '\n\tnode [shape = doublecircle]; {}'.format(final_nodes_str_repr)
+        output_str += '\n\tnode [shape = circle];'
+        output_str += '\n{}'.format(transitions_str_repr)
+        output_str += '}}'
+        return output_str
 
 
 if __name__ == '__main__': pass
