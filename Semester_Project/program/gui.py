@@ -19,7 +19,6 @@ class MDFA_GUI:
 
         self.root_w = QWidget()
         self.root_w.resize(600, 300)
-        #self.root_w.setFixedSize(QSize(600, 300))
         self.root_w.setWindowTitle('NFA to minimized DFA')
         self.root_w.show()
         
@@ -350,11 +349,12 @@ class MDFA_Tabs(QWidget):
                     line = ''.join([c for c in line if c.isalnum() or c == ',' or c == ':' or c == '(' or c == ')'])
                     if line.count(':') > 1: continue
 
-                    if (line[0] == 'q:' or line[0] == 'Q:') and not (line[0:2] == 'q0:' or line[0:2] == 'Q0:'): self.qInput.setText(line[2:])
-                    elif (line[0] == 's:' or line[0] == 'S:'): self.sigmaInput.setText(line[2:])
-                    elif (line[0] == 'd:' or line[0] == 'D:'): self.deltaInput.setText(line[2:])
-                    elif (line[0:2] == 'q0:' or line[0:2] == 'Q0:'): self.q0 = line[3:]
-                    elif (line[0] == 'f:' or line[0] == 'F:'): self.fInput.setText(line[2:])
+                    print(line[0:2])
+                    if (line[0:2] == 'q:' or line[0:2] == 'Q:') and not (line[0:3] == 'q0:' or line[0:3] == 'Q0:'): self.qInput.setText(line[2:])
+                    elif (line[0:2] == 's:' or line[0:2] == 'S:'): self.sigmaInput.setText(line[2:])
+                    elif (line[0:2] == 'd:' or line[0:2] == 'D:'): self.deltaInput.setText(line[2:])
+                    elif (line[0:3] == 'q0:' or line[0:3] == 'Q0:'): self.q0 = line[3:]
+                    elif (line[0:2] == 'f:' or line[0:2] == 'F:'): self.fInput.setText(line[2:])
             except: pass
             finally: self.verify_all()
 
@@ -560,6 +560,8 @@ class MDFA_Tabs(QWidget):
     def copy_graphviz(self):
         try:
             pyperclip.copy(self.converter.get_graphviz())
+            self.wInputErrorLabel.setStyleSheet("color: green; border: none;")
+            self.wInputErrorLabel.setText("Graphviz output copied successfully")
         except:
             msgBox = QMessageBox()
             msgBox.setTextInteractionFlags(Qt.TextSelectableByMouse)

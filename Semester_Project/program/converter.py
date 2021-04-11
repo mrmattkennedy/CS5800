@@ -25,11 +25,14 @@ class NFA_DFA_Conv:
         transitive function value (Y). 
         Then, convert to string representation (or just 0 if Y is empty), add Y to the list of nodes,
         and the string representation to the new DFA's transitive function table for that node/symbol
+        After this is done, check all nodes in original states to see if any weren't added.
+
         Args:
             None
         Returns:
             None
         """
+
         self.Q_prime = [self.start_state_lambda_closure]
         self.S_prime = [s for s in self.S if s != 'lambda']
         self.D_prime = {}
@@ -110,6 +113,7 @@ class NFA_DFA_Conv:
         """Gets lambda closure for starting state - this is required for the NFA\Lambda to DFA algorithm
         No other lambda closures needed. Just sees if there are any lambda branches to reach out on from start state
         Follows as far as possible.
+        
         Args:
             None
         Returns:
@@ -143,6 +147,7 @@ class NFA_DFA_Conv:
         Keeps track of states for that specific transition - appends normally if not lambda
         If any lambda arcs, adds any states reachable by lambda if original state has a looped element
         Additionally, tries to reach out on lambda branches and search for the specified symbol, adds that state if possible
+
         Args:
             None
         Returns:
